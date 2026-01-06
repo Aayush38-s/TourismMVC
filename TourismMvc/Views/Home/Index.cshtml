@@ -1,0 +1,60 @@
+﻿@model TourismMvc.Models.HomeIndexViewModel
+@using System
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h2>Group Members</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Student ID</th>
+            <th>Full Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var member in Model.GroupMembers)
+        {
+            <tr>
+                <td>@member.StudentId</td>
+                <td>@member.FullName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h2>Featured Tours</h2>
+
+@if (Model.FeaturedTours != null && Model.FeaturedTours.Any())
+{
+    <div class="row">
+        @foreach (var tour in Model.FeaturedTours)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">@tour.Title</h4>
+                        <p><strong>Destination:</strong> @tour.Destination</p>
+                        <p><strong>Duration:</strong> @tour.DurationDays days</p>
+                        <p><strong>Price:</strong> @tour.BasePrice.ToString("C")</p>
+                        <p>
+                            @{
+                                var text = tour.Description ?? "";
+                                var shortText = text.Length > 100 ? text.Substring(0, 100) + "..." : text;
+                            }
+                            @shortText
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>No tours available yet. Agency users can add tours from their dashboard.</p>
+}
